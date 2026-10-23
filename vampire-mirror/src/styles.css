@@ -1,0 +1,52 @@
+:root {
+  --ink: #0b0709; --blood: #b3122e; --blood-d: #5c0a1a; --candle: #f2b866; --bone: #e8dfd0; --gold: #8a6a3a;
+  --font: 'IM Fell English', Georgia, 'Times New Roman', serif;
+  --fw: clamp(12px, 2vw, 24px); /* frame width */
+}
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; background: var(--ink); overflow: hidden; }
+.stage { position: relative; width: 100%; height: 100%; color: var(--bone); font-family: var(--font); }
+.mirror-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hidden-video { position: fixed; width: 2px; height: 2px; opacity: 0; pointer-events: none; }
+
+/* Frame */
+.frame {
+  position: fixed; inset: 0; z-index: 4; pointer-events: none; color: var(--gold);
+  border: var(--fw) solid; border-image: linear-gradient(135deg, #2b1b15, #0d0708 35%, #2b1b15 60%, #0d0708) 1;
+  box-shadow: inset 0 0 0 2px rgba(138, 106, 58, .75), inset 0 0 70px 14px rgba(0, 0, 0, .65);
+}
+.corner { position: absolute; width: clamp(36px, 6vw, 64px); height: clamp(36px, 6vw, 64px); opacity: .85; }
+.tl { top: var(--fw); left: var(--fw); }
+.tr { top: var(--fw); right: var(--fw); transform: scaleX(-1); }
+.bl { bottom: var(--fw); left: var(--fw); transform: scaleY(-1); }
+.br { bottom: var(--fw); right: var(--fw); transform: scale(-1, -1); }
+
+/* Landing / loading / error */
+.intro { position: absolute; inset: 0; z-index: 6; display: grid; place-content: center; justify-items: center; gap: 1.2rem; padding: 2rem; text-align: center; }
+.intro h1 { margin: 0; font: italic 400 clamp(3rem, 10vw, 7.5rem)/.95 var(--font); letter-spacing: -.015em; text-shadow: 0 0 44px rgba(179, 18, 46, .55), 0 2px 0 rgba(0, 0, 0, .6); }
+.intro p { margin: 0; max-width: 34ch; font-size: clamp(1.15rem, 2.4vw, 1.5rem); line-height: 1.4; text-shadow: 0 1px 12px rgba(0, 0, 0, .9); }
+.intro small, .plaque small { font-size: .85rem; opacity: .7; }
+
+/* Setup plaque and countdown */
+.plaque { position: absolute; z-index: 6; left: 50%; bottom: calc(var(--fw) + 2.2rem); transform: translateX(-50%); width: min(92vw, 30rem); display: grid; gap: .9rem; justify-items: center; text-align: center; padding: 1.4rem 1.6rem 1.6rem; background: rgba(11, 7, 9, .78); border: 1px solid rgba(138, 106, 58, .6); backdrop-filter: blur(6px); }
+.plaque h2 { margin: 0; font: italic 400 1.9rem/1 var(--font); }
+.plaque p { margin: 0; font-size: 1.1rem; line-height: 1.4; }
+.countdown { position: absolute; inset: 0; z-index: 6; display: grid; place-content: center; justify-items: center; gap: .4rem; text-align: center; pointer-events: none; }
+.countdown p { margin: 0; font: italic 400 clamp(1.3rem, 3vw, 2rem)/1 var(--font); text-shadow: 0 1px 14px #000; }
+.numeral { font: italic 400 clamp(8rem, 28vw, 18rem)/.9 var(--font); color: var(--bone); text-shadow: 0 0 60px rgba(179, 18, 46, .8), 0 4px 30px #000; }
+
+/* Buttons */
+button { font: 400 1.05rem var(--font); cursor: pointer; transition: background .2s, border-color .2s, color .2s; }
+button:focus-visible { outline: 2px solid var(--candle); outline-offset: 3px; }
+.primary { padding: .8rem 1.8rem; color: var(--bone); background: rgba(11, 7, 9, .6); border: 1px solid var(--gold); backdrop-filter: blur(4px); }
+.primary:hover { background: var(--blood-d); border-color: var(--blood); }
+.quiet { padding: .3rem .1rem; color: var(--bone); background: none; border: 0; border-bottom: 1px solid rgba(232, 223, 208, .35); opacity: .85; }
+.quiet:hover { opacity: 1; border-bottom-color: var(--blood); }
+
+/* Active bar */
+.bar { position: absolute; z-index: 6; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem calc(var(--fw) + 1.4rem) calc(var(--fw) + 1rem); }
+.hint { margin: 0; font: italic 400 clamp(1.3rem, 3vw, 1.9rem)/1 var(--font); text-shadow: 0 1px 16px #000, 0 0 30px rgba(179, 18, 46, .5); }
+.bar-actions { display: flex; gap: 1.4rem; text-shadow: 0 1px 10px #000; }
+
+@media (max-width: 560px) { .bar { flex-direction: column; align-items: flex-start; } }
+@media (prefers-reduced-motion: reduce) { button { transition: none; } }
